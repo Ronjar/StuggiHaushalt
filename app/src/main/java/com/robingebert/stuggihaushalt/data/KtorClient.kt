@@ -2,12 +2,16 @@ package com.robingebert.stuggihaushalt.data
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
 import io.ktor.client.plugins.cookies.HttpCookies
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.parameters
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 
 class KtorClient {
     private val cookieStorage = AcceptAllCookiesStorage()
@@ -15,6 +19,9 @@ class KtorClient {
     val client = HttpClient(CIO) {
         install(HttpCookies) {
             storage = cookieStorage
+        }
+        install(ContentNegotiation) {
+            json() // Unbekannte Felder im JSON ignorieren
         }
     }
 

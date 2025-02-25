@@ -7,11 +7,11 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val client: KtorClient): ViewModel() {
 
-    fun login(username: String, password: String){
+    fun login(username: String, password: String, onSuccess: () -> Unit){
         viewModelScope.launch {
             client.login(username, password) {
                 it.onSuccess {
-
+                    onSuccess()
                 }.onFailure {
 
                 }

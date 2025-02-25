@@ -19,7 +19,7 @@ fun AppNavigation(navController: NavHostController){
         enterTransition = { slideInHorizontally(initialOffsetX = { -2000 }, animationSpec = tween(700)) },
         exitTransition = { slideOutHorizontally(targetOffsetX = { -2000 }, animationSpec = tween(700)) }
     ) {
-        composable(Screen.Login.route) { LoginScreen() }
+        composable(Screen.Login.route) { LoginScreen(navController) }
         composable(Screen.Main.route) { SwipingScreen() }
         composable(Screen.Settings.route) { SettingsScreen() }
     }

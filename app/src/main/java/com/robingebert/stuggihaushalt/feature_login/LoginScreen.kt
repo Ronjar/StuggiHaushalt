@@ -31,18 +31,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType.*
+import androidx.compose.ui.autofill.ContentType.Companion.EmailAddress
+import androidx.compose.ui.autofill.ContentType.Companion.Password
+import androidx.compose.ui.autofill.ContentType.Companion.Username
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.SemanticsProperties.ContentType
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.robingebert.stuggihaushalt.common.openCustomTab
+import com.robingebert.stuggihaushalt.navigation.Screen
+
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
+fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinViewModel()) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -61,6 +72,9 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
                 Text("Login", style = MaterialTheme.typography.headlineMedium)
                 Spacer(Modifier.height(12.dp))
                 TextField(
+                    modifier = Modifier.semantics {
+                        contentType = Username + EmailAddress
+                    },
                     value = username,
                     onValueChange = { username = it },
                     label = { Text("Username") },
@@ -72,6 +86,9 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
                 Spacer(Modifier.height(8.dp))
                 var passwordVisibility by remember { mutableStateOf(false) }
                 TextField(
+                    modifier = Modifier.semantics {
+                        contentType = Password
+                    },
                     value = password,
                     onValueChange = { password = it },
                     label = { Text("Password") },
@@ -81,7 +98,9 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
                     ),
                     keyboardActions = KeyboardActions(
                         onGo = {
-                            viewModel.login(username, password)
+                            viewModel.login(username, password){
+
+                            }
                         }
                     ),
                     visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
@@ -102,7 +121,9 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                    viewModel.login(username, password)
+                    viewModel.login(username, password){
+                        navController.navigate(Screen.Main.route)
+                    }
                 }) {
                     Text("Login")
                 }
@@ -132,5 +153,5 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(navController = rememberNavController())
 }

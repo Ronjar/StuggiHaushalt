@@ -76,4 +76,5 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.composeSettings.ui)
     implementation(libs.composeSettings.ui.extended)
+    implementation(libs.browser)
 }

@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
                 }
                 Scaffold(
                     snackbarHost = { SnackbarHost(snackbarHostState) },
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().imePadding(),
                     topBar = {
                         TopAppBar(
                             title = { Text(navController.currentScreenTitle()) },
@@ -82,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            navigationIcon = {
+                            /*navigationIcon = {
                                 if (navController.currentScreenTitle() != Screen.Main.title) {
                                     IconButton(onClick = { navController.navigateUp() }) {
                                         Icon(
@@ -91,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 }
-                            }
+                            }*/
                         )
                     }
                 ) { paddingValues ->
@@ -116,6 +117,6 @@ private fun NavController.currentScreenTitle(): String {
         Screen.Main.route -> Screen.Main.title
         Screen.Login.route -> Screen.Login.title
         Screen.Settings.route -> Screen.Settings.title
-        else -> "Paraparia"
+        else -> "StuggiHaushalt"
     }
 }

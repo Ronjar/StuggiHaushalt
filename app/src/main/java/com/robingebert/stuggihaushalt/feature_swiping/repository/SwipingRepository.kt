@@ -19,6 +19,9 @@ class SwipingRepository(private val client: KtorClient) : BaseRepository() {
         val document = Ksoup.parse(cleanedResponse)
         var list = mutableListOf<Proposal>()
         document.getElementsByClass("views-row").forEach {
+            val rateButtons = it.getElementsByClass("rate-button").map {
+                extractToken(it.attr("href"))
+            }
             list.add(
                 Proposal(
                     title = it.getElementsByClass("node__title node-title")[0].text(),
@@ -29,9 +32,9 @@ class SwipingRepository(private val client: KtorClient) : BaseRepository() {
                     category = it.getElementsByClass("shs-term-selected")[0].text(),
                     effect = it.getElementsByClass("field-tax-wirkung")[0].firstElementChild()
                         ?.firstElementChild()?.text() ?: "",
-                    optionGood = it.getElementById("rate-button-1")?.attr("href") ?: "",
-                    optionBad = it.getElementById("rate-button-2")?.attr("href") ?: "",
-                    optionWhatever = it.getElementById("rate-button-3")?.attr("href") ?: "",
+                    optionBad = rateButtons[0],
+                    optionGood = rateButtons[1],
+                    optionWhatever = rateButtons[2],
                 )
             )
 
@@ -45,5 +48,9 @@ class SwipingRepository(private val client: KtorClient) : BaseRepository() {
             ProposalAction.BAD -> swipingAPI.vote(proposal.optionBad)
             ProposalAction.WHATEVER -> swipingAPI.vote(proposal.optionWhatever)
         }
+    }
+
+    fun extractToken(url: String): String {
+        return url.split("rate=")[1]
     }
 }

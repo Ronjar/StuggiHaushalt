@@ -19,6 +19,7 @@ class SwipingViewModel(private val repository: SwipingRepository) : ViewModel() 
     }
 
     private fun getNewProposals() {
+        if (_proposals.value.size > 3) return
         viewModelScope.launch {
             repository.getNewViews().onSuccess {
                 _proposals.emit(it)
@@ -29,6 +30,7 @@ class SwipingViewModel(private val repository: SwipingRepository) : ViewModel() 
     }
 
     fun acceptProposal(proposal: Proposal) {
+        _proposals.value = _proposals.value.toMutableList().apply { remove(proposal) }
         viewModelScope.launch {
             repository.rateProposal(proposal, ProposalAction.GOOD)
                 .onSuccess {

@@ -1,6 +1,7 @@
 package com.robingebert.stuggihaushalt.feature_swiping.ui.composables
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -32,7 +33,7 @@ fun ProposalCard(
         Column(modifier = Modifier.padding(20.dp)) {
             Text(text = proposal.title, style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.height(8.dp))
-            Row {
+            FlowRow {
                 BadgeWithIcon(Icons.Rounded.LocationOn, proposal.county)
                 Spacer(modifier = Modifier.width(8.dp))
                 BadgeWithIcon(Icons.Rounded.Bookmark, proposal.category)

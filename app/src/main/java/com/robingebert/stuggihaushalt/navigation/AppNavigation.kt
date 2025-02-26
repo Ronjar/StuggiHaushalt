@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.robingebert.stuggihaushalt.feature_login.LoginScreen
 import com.robingebert.stuggihaushalt.feature_settings.SettingsScreen
-import com.robingebert.stuggihaushalt.feature_swiping.SwipingScreen
+import com.robingebert.stuggihaushalt.feature_swiping.ui.SwipingScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController){

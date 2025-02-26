@@ -79,4 +79,5 @@ dependencies {
     implementation(libs.composeSettings.ui)
     implementation(libs.composeSettings.ui.extended)
     implementation(libs.browser)
+    implementation(libs.swipeable.cards)
 }
